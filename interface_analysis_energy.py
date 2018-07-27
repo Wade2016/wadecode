@@ -117,11 +117,12 @@ def NUCPLOT_EXTRACT(chunk):
 					sig_dist12=sig_dist6*sig_dist6
 					Pachr=float(atom_pars.loc[Patag]['Charge'])
 					Dachr=float(atom_pars.loc[Datag]['Charge'])
-					const_col=1.7366935625 # from gromacs manual p.83 :138.935485/80, 80
-					ecoul=const_col*Pachr*Dachr/distij
+					const_col=138.935485 # from gromacs manual 2016 p.67 :138.935485
+					const_e_r=1.0
+					ecoul=const_col*Pachr*Dachr/distij/const_e_r
 					evdw=eps_pd*(sig_dist12 - sig_dist6)
 					enonb=ecoul+evdw
-					nucdata.loc[str(frame)+"_"+str(iidx)]={"Frame": frame, 
+					nucdata.loc[str(frame)+"_"+str(iidx)]={"Frame": frame,
 						"P_resname": slist[0], "P_chain": slist[1], "P_resid": slist[2], "P_atom":slist[3], "PA_charge": Pachr,
 						"D_resname": slist[4], "D_chain": slist[5], "D_resid": slist[6], "D_atom":slist[7], "DA_charge": Dachr, 
 						"Dist":distij, "Evdw": evdw, "Ecoul": ecoul, "Enonb": enonb, "Type": "HB"}
